@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <div class="card shadow-lg p-4">
+    <h1 class="text-center text-primary mb-4">
+      {{ isEditMode ? 'Modifier' : 'Ajouter' }} un département
+    </h1>
+
+    <form [formGroup]="departmentForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div class="row g-3">
+        <div class="col-md-12">
+          <label class="form-label">Nom du département</label>
+          <input type="text" formControlName="name" class="form-control" placeholder="Nom du département">
+          <div *ngIf="departmentForm.get('name')?.invalid && departmentForm.get('name')?.touched" class="text-danger">
+            Le nom du département est requis
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Département parent</label>
+          <select formControlName="parentDepartment" class="form-select">
+            <option [ngValue]="null">Aucun</option>
+            <option *ngFor="let dept of parentDepartments" [ngValue]="dept">
+              {{ dept.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Responsable</label>
+          <select formControlName="manager" class="form-select">
+            <option [ngValue]="null">Sélectionner un responsable</option>
+            <option *ngFor="let employee of employees" [ngValue]="employee">
+              {{ employee.firstName }} {{ employee.lastName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end mt-4">
+        <button type="button" routerLink="/departments" class="btn btn-secondary me-3">Annuler</button>
+        <button type="submit" class="btn btn-primary" [disabled]="departmentForm.invalid">
+          {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

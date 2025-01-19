@@ -1,0 +1,83 @@
+<div class="container mt-5">
+  <div class="card shadow-lg p-4">
+    <h1 class="text-center text-primary mb-4">
+      {{ isEditMode ? 'Modifier' : 'Nouvelle' }} demande d'absence
+    </h1>
+
+    <form [formGroup]="leaveForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Date de début</label>
+          <input
+            type="date"
+            formControlName="startDate"
+            class="form-control"
+          >
+          <div *ngIf="leaveForm.get('startDate')?.invalid && leaveForm.get('startDate')?.touched"
+               class="text-danger">
+            La date de début est requise
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Date de fin</label>
+          <input
+            type="date"
+            formControlName="endDate"
+            class="form-control"
+          >
+          <div *ngIf="leaveForm.get('endDate')?.invalid && leaveForm.get('endDate')?.touched"
+               class="text-danger">
+            La date de fin est requise
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <label class="form-label">Raison</label>
+          <textarea
+            formControlName="reason"
+            class="form-control"
+            rows="4"
+            placeholder="Veuillez expliquer la raison de votre absence..."
+          ></textarea>
+          <div *ngIf="leaveForm.get('reason')?.invalid && leaveForm.get('reason')?.touched"
+               class="text-danger">
+            La raison est requise
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Type d'absence</label>
+          <select formControlName="leaveType" class="form-select">
+            <option [ngValue]="null">Sélectionner un type</option>
+            <option value="PAID">Congé payé</option>
+            <option value="UNPAID">Congé sans solde</option>
+            <option value="SICK">Congé maladie</option>
+            <option value="OTHER">Autre</option>
+          </select>
+          <div *ngIf="leaveForm.get('leaveType')?.invalid && leaveForm.get('leaveType')?.touched"
+               class="text-danger">
+            Le type d'absence est requis
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end mt-4">
+        <button
+          type="button"
+          routerLink="/leaves"
+          class="btn btn-secondary me-3"
+        >
+          Annuler
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="leaveForm.invalid"
+        >
+          {{ isEditMode ? 'Mettre à jour' : 'Soumettre' }} la demande
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
